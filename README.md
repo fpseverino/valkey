@@ -21,8 +21,8 @@ let valkeyClient = ValkeyClient(.hostname("localhost"), logger: .current)
 
 let app = try Application(
     services: .init(
-        cache: .provided(ValkeyCache(client: valkeyClient)),
-        sessionDriver: .provided(ValkeySessions(client: valkeyClient))
+        cache: .valkey(valkeyClient),
+        sessionDriver: .valkey(valkeyClient)
     )
 )
 

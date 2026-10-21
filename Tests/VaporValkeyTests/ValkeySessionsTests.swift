@@ -12,7 +12,7 @@ struct ValkeySessionsTests {
     @Test("ValkeySessions")
     func valkeySessions() async throws {
         try await ValkeyConnection.withConnection(address: valkeyAddress, logger: .current) { connection in
-            try await withApp(services: .init(sessionDriver: .provided(ValkeySessions(client: connection)))) { app in
+            try await withApp(services: .init(sessionDriver: .valkey(connection))) { app in
                 app.middleware.use(app.sessionsMiddleware)
 
                 // Setup routes.

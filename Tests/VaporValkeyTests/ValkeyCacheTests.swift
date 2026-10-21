@@ -51,7 +51,7 @@ struct ValkeyCacheTests {
 
     private func withValkeyCache(_ body: (Application, any ValkeyClientProtocol) async throws -> Void) async throws {
         try await ValkeyConnection.withConnection(address: valkeyAddress, logger: .current) { connection in
-            try await withApp(services: .init(cache: .provided(ValkeyCache(client: connection)))) { app in
+            try await withApp(services: .init(cache: .valkey(connection))) { app in
                 try await body(app, connection)
             }
         }

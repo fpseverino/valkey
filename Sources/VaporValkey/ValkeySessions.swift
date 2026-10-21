@@ -7,6 +7,33 @@ public import FoundationEssentials
 public import Foundation
 #endif
 
+extension Application.ServiceOptionType where Service == any SessionDriver {
+    /// Builds a Valkey-based session driver for the application.
+    ///
+    /// - Parameters:
+    ///   - client: The Valkey client or connection to use for session operations.
+    ///   - decoder: The JSON decoder to use for decoding session data.
+    ///   - encoder: The JSON encoder to use for encoding session data.
+    ///   - keyPrefix: The prefix to use for session keys in Valkey.
+    ///
+    /// - Returns: A Valkey-based session driver.
+    public static func valkey(
+        _ client: any ValkeyClientProtocol,
+        decoder: JSONDecoder = JSONDecoder(),
+        encoder: JSONEncoder = JSONEncoder(),
+        keyPrefix: String = "vvs-"
+    ) -> Self {
+        .provided(
+            ValkeySessions(
+                client: client,
+                decoder: decoder,
+                encoder: encoder,
+                keyPrefix: keyPrefix
+            )
+        )
+    }
+}
+
 /// A session driver for Vapor that uses Valkey as the backend.
 public struct ValkeySessions: SessionDriver {
     private let client: any ValkeyClientProtocol

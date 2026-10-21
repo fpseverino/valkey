@@ -16,8 +16,8 @@ let valkeyClient = ValkeyClient(.hostname("localhost"), logger: .current)
 
 let app = try Application(
     services: .init(
-        cache: .provided(ValkeyCache(client: valkeyClient)),
-        sessionDriver: .provided(ValkeySessions(client: valkeyClient))
+        cache: .valkey(valkeyClient),
+        sessionDriver: .valkey(valkeyClient)
     )
 )
 
@@ -36,8 +36,10 @@ For more information about Vapor's session system, see [Sessions](https://docs.v
 
 ### Sessions
 
+- ``Vapor/Application/ServiceOptionType/valkey(_:decoder:encoder:keyPrefix:)``
 - ``ValkeySessions``
 
 ### Cache
 
+- ``Vapor/Application/ServiceOptionType/valkey(_:decoder:encoder:)``
 - ``ValkeyCache``
