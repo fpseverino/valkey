@@ -27,7 +27,12 @@ let app = try Application(
 )
 
 // If you're using a connection pool backed client, remember to run it
+
+// This lets Vapor handle the client, starting it when the Application starts and stopping it when the application shuts down
 app.addService(valkeyClient)
+
+// Alternatively, you can run it yourself
+// async let _ = valkeyClient.run()
 ```
 
 For more information about Vapor's session system, see [Sessions](https://docs.vapor.codes/advanced/sessions/).

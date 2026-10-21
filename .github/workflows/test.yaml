@@ -21,6 +21,8 @@ jobs:
     env:
       VALKEY_HOSTNAME: valkey
     steps:
+    - name: Install curl
+      run: apt-get update -yq && apt-get install -y curl
     - name: Checkout
       uses: actions/checkout@v7
     - name: Test
