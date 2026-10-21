@@ -1,13 +1,10 @@
-import NIOCore
 public import Valkey
 public import Vapor
 
 #if canImport(FoundationEssentials)
 public import FoundationEssentials
-import NIOFoundationEssentialsCompat
 #else
 public import Foundation
-import NIOFoundationCompat
 #endif
 
 /// A session driver for Vapor that uses Valkey as the backend.
@@ -38,7 +35,7 @@ public struct ValkeySessions: SessionDriver {
 
     public func readSession(_ sessionID: SessionID, for request: Request) async throws -> SessionData? {
         try await self.client.get(.init(Self.makeKey(sessionID: sessionID))).map { result in
-            try self.decoder.decode(SessionData.self, from: ByteBuffer(result))
+            try self.decoder.decode(SessionData.self, from: Data(result))
         }
     }
 

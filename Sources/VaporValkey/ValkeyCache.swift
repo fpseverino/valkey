@@ -1,13 +1,10 @@
-import NIOCore
 public import Valkey
 public import Vapor
 
 #if canImport(FoundationEssentials)
 public import FoundationEssentials
-import NIOFoundationEssentialsCompat
 #else
 public import Foundation
-import NIOFoundationCompat
 #endif
 
 /// A cache driver for Vapor that uses Valkey as the backend.
@@ -30,7 +27,7 @@ public struct ValkeyCache: Cache {
 
     public func get<T>(_ key: String, as type: T.Type) async throws -> T? where T: Decodable & Sendable {
         try await self.client.get(.init(key)).map { result in
-            try self.decoder.decode(T.self, from: ByteBuffer(result))
+            try self.decoder.decode(T.self, from: Data(result))
         }
     }
 
